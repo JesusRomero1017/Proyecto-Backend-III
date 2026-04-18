@@ -1,39 +1,39 @@
 # Sistema de Inventario
 
-API REST desarrollada con Node.js y Express para la gestión de inventarios en negocios. Permite administrar productos, usuarios y movimientos de stock (entradas y salidas) de forma segura mediante autenticación con JWT.
+API REST desarrollada con Node.js y Express para la gestion de inventarios en negocios. Permite administrar productos, usuarios y movimientos de stock (entradas y salidas) de forma segura mediante autenticacion con JWT.
 
 ---
 
-# Explicación
+# Explicacion
 
-Este proyecto consiste en una API REST que permite gestionar un sistema de inventario, incluyendo el control de productos, usuarios y movimientos. Está diseñada bajo buenas prácticas de desarrollo backend, utilizando arquitectura MVC y protección de rutas.
+Este proyecto consiste en una API REST que permite gestionar un sistema de inventario, incluyendo el control de productos, usuarios y movimientos. Esta disenada bajo buenas practicas de desarrollo backend, utilizando arquitectura MVC y proteccion de rutas.
 
 ---
 
-# Justificación
+# Justificacion
 
-Muchos negocios pequeños y medianos carecen de herramientas eficientes para gestionar su inventario, lo que provoca errores, pérdidas y falta de control. Esta API resuelve ese problema al centralizar la información, automatizar procesos y garantizar seguridad en el acceso.
+Muchos negocios pequenos y medianos carecen de herramientas eficientes para gestionar su inventario, lo que provoca errores, perdidas y falta de control. Esta API resuelve ese problema al centralizar la informacion, automatizar procesos y garantizar seguridad en el acceso.
 
 ---
 
 # Requisitos Previos
 
-Antes de ejecutar el proyecto, asegúrate de tener instalado:
+Antes de ejecutar el proyecto, asegurate de tener instalado:
 
-* Node.js (v18 o superior)
-* npm (incluido con Node.js)
-* MongoDB Atlas (cuenta gratuita) o MongoDB local
-* Git
+- Node.js (v18 o superior)
+- npm (incluido con Node.js)
+- MySQL (v8 recomendado)
+- Git
 
 ---
 
-# Instalación y Ejecución
+# Instalacion y Ejecucion
 
 ## Clonar el repositorio
 
 ```bash
 git clone https://github.com/JesusRomero1017/Proyecto-Backend-III.git
-cd inventario-api
+cd Proyecto-Backend-III
 ```
 
 ## Instalar dependencias
@@ -44,25 +44,25 @@ npm install
 
 ## Configurar variables de entorno
 
-Crear un archivo `.env` en la raíz del proyecto.
+Crear un archivo `.env` en la raiz del proyecto usando `.env.example` como referencia.
 
-##  Ejecutar el servidor
+## Ejecutar el servidor (desarrollo)
 
 ```bash
 npm run dev
 ```
 
-o
+## Ejecutar el servidor (produccion)
 
 ```bash
-node app.js
+npm start
 ```
 
 ## Verificar funcionamiento
 
 Abrir en el navegador:
 
-```
+```txt
 http://localhost:3000
 ```
 
@@ -74,65 +74,70 @@ Ejemplo: `.env.example`
 
 ```env
 PORT=3000
-MONGO_URI=mongodb+srv://usuario:password@cluster.mongodb.net/inventario
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=tu_password
+MYSQL_DATABASE=inventario_db
 JWT_SECRET=supersecreto
 ```
 
 ---
 
-# Requisitos Técnicos del Proyecto
+# Requisitos Tecnicos del Proyecto
 
 ## Arquitectura
 
-El proyecto sigue el patrón MVC (Modelo - Vista - Controlador):
+El proyecto sigue el patron MVC (Modelo - Vista - Controlador):
 
-```
-models/       → Esquemas de datos (MongoDB)
-controllers/  → Lógica del negocio
-routes/       → Definición de endpoints
-middlewares/  → Seguridad y validaciones
+```txt
+models/       -> Modelos Sequelize y relaciones
+controllers/  -> Logica del negocio
+routes/       -> Definicion de endpoints
+middlewares/  -> Seguridad y manejo de errores
+config/       -> Conexion a MySQL
 ```
 
 ---
 
 ## Seguridad
 
-* Autenticación basada en JWT (JSON Web Tokens)
-* Protección de rutas mediante middleware
-* Encriptación de contraseñas con bcrypt
-* Control de acceso por roles (opcional)
+- Autenticacion basada en JWT (JSON Web Tokens)
+- Proteccion de rutas mediante middleware
+- Encriptacion de contrasenas con bcrypt
+- Manejo centralizado de errores
 
 ---
 
 ## Estilo
 
-* Arquitectura RESTful
-* Uso correcto de métodos HTTP:
-
-  * GET → Obtener datos
-  * POST → Crear
-  * PUT → Actualizar
-  * DELETE → Eliminar
-* Respuestas en formato JSON
-* Uso de códigos de estado HTTP (200, 201, 400, 401, 404, 500)
-
----
-
-## Framework
-
-* Express.js
+- Arquitectura RESTful
+- Uso correcto de metodos HTTP:
+  - GET -> Obtener datos
+  - POST -> Crear
+  - PUT -> Actualizar
+  - DELETE -> Eliminar
+- Respuestas en formato JSON
+- Uso de codigos de estado HTTP (200, 201, 400, 401, 404, 500)
 
 ---
 
-# Documentación de Endpoints
+## Framework y Base de Datos
 
-## Autenticación
+- Express.js
+- MySQL + Sequelize ORM
+
+---
+
+# Documentacion de Endpoints
+
+## Autenticacion
 
 ### POST /api/auth/register
 
-**Descripción:** Registrar usuario
+Descripcion: Registrar usuario
 
-**Body:**
+Body:
 
 ```json
 {
@@ -142,7 +147,7 @@ middlewares/  → Seguridad y validaciones
 }
 ```
 
-**Respuesta:**
+Respuesta:
 
 ```json
 {
@@ -154,9 +159,9 @@ middlewares/  → Seguridad y validaciones
 
 ### POST /api/auth/login
 
-**Descripción:** Iniciar sesión
+Descripcion: Iniciar sesion
 
-**Body:**
+Body:
 
 ```json
 {
@@ -165,7 +170,7 @@ middlewares/  → Seguridad y validaciones
 }
 ```
 
-**Respuesta:**
+Respuesta:
 
 ```json
 {
@@ -179,10 +184,10 @@ middlewares/  → Seguridad y validaciones
 
 ### GET /api/products
 
-**Descripción:** Obtener todos los productos
-**Headers:**
+Descripcion: Obtener todos los productos no eliminados.
+Headers:
 
-```
+```txt
 Authorization: Bearer TOKEN
 ```
 
@@ -190,15 +195,15 @@ Authorization: Bearer TOKEN
 
 ### GET /api/products/:id
 
-**Descripción:** Obtener producto por ID
+Descripcion: Obtener producto por ID.
 
 ---
 
 ### POST /api/products
 
-**Descripción:** Crear producto
+Descripcion: Crear producto.
 
-**Body:**
+Body:
 
 ```json
 {
@@ -212,13 +217,13 @@ Authorization: Bearer TOKEN
 
 ### PUT /api/products/:id
 
-**Descripción:** Actualizar producto
+Descripcion: Actualizar producto.
 
 ---
 
 ### DELETE /api/products/:id
 
-**Descripción:** Eliminar producto (soft delete)
+Descripcion: Eliminar producto (soft delete).
 
 ---
 
@@ -226,13 +231,13 @@ Authorization: Bearer TOKEN
 
 ### POST /api/movements
 
-**Descripción:** Crear movimiento (entrada/salida)
+Descripcion: Crear movimiento (entrada/salida) y actualizar stock.
 
-**Body:**
+Body:
 
 ```json
 {
-  "product": "ID_PRODUCTO",
+  "product": 1,
   "type": "IN",
   "quantity": 5,
   "note": "Compra"
@@ -243,23 +248,41 @@ Authorization: Bearer TOKEN
 
 ### GET /api/movements
 
-**Descripción:** Obtener historial de movimientos
+Descripcion: Obtener historial de movimientos.
+
+Opcional query params:
+
+- `type=IN|OUT`
+- `productId=ID`
 
 ---
 
 # Estructura del Proyecto
 
-```
-inventario-api/
-│
-├── controllers/
-├── models/
-├── routes/
-├── middlewares/
-├── config/
-├── app.js
-├── .env
-└── package.json
+```txt
+Proyecto-Backend-III/
+|
+|-- controllers/
+|   |-- authController.js
+|   |-- productController.js
+|   |-- movementController.js
+|-- models/
+|   |-- User.js
+|   |-- Product.js
+|   |-- Movement.js
+|   |-- index.js
+|-- routes/
+|   |-- authRoutes.js
+|   |-- productRoutes.js
+|   |-- movementRoutes.js
+|-- middlewares/
+|   |-- authMiddleware.js
+|   |-- errorMiddleware.js
+|-- config/
+|   |-- db.js
+|-- .env.example
+|-- app.js
+|-- package.json
 ```
 
 ---
@@ -267,5 +290,3 @@ inventario-api/
 # Autor
 
 Proyecto desarrollado para fines educativos.
-
----
